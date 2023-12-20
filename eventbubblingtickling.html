@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section {
+            border: 2px solid red;
+            padding: 10px;
+            cursor: pointer;
+            color: red;
+        }
+        span {
+            padding: 0px;
+        }
+
+        div{
+            padding: 10px;
+            background: #fff;
+            border: 2px solid rgb(75, 1, 1);
+        }
+        div:hover{
+            border: 1px solid rgb(184, 130, 130);
+            background: rgb(237, 212, 212);
+        }
+        #log {
+            border: 2px solid rgb(9, 0, 87);
+            color: green;
+        }
+
+        button {
+            background-color: rgb(188, 12, 12);
+            color: rgb(204, 176, 123);
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 2px solid rgb(42, 27, 1);
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: orange;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h2>Event bubbling tickling example </h2>
+
+    <section>
+        <div>body (great-great-grandparent)
+            <div>div(great-grandparent)
+                <div>ul(grandparent)
+                    <div> li(direct parent)
+                        <div>span</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><button id="clear">Clear Output</button>
+    <br><br>
+    <h3>Click anywhre in above boxes to get result here</h3>
+    <section id="log"> Result </section>
+
+    <script>
+
+        var logElement = document.getElementById('log');
+        
+        function log(msg) {
+            logElement.innerHTML += ('<p>' + msg + '</p>');
+        }
+        function capture() {
+            log('capture: ' + this.firstChild.nodeValue.trim());
+        }
+        function bubble() {
+            log('bubble: ' + this.firstChild.nodeValue.trim());
+        }
+        function clearOutput() {
+            logElement.innerHTML = "";
+        }
+        var divs = document.getElementsByTagName('div');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].addEventListener('click', capture, true);
+            divs[i].addEventListener('click', bubble, false);
+        }
+        var clearButton = document.getElementById('clear');
+        clearButton.addEventListener('click', clearOutput);
+
+    </script>
+</body>
+</html>
